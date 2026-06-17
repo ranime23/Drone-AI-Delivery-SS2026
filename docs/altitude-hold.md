@@ -1,18 +1,28 @@
 # Altitude Hold
 
 ## Ziel
-Test der Höhenhaltung mit ArduPilot.
 
-## Hardware
-- FPV Drohne
+Stabile Höhenhaltung der Drohne im Innenbereich.
+
+## Verwendete Komponenten
+
 - ArduPilot
-- LiDAR MTF-01P
+- LiDAR Sensor (MTF-01P)
 
 ## Durchführung
-Der Flugmodus Altitude Hold wurde getestet.
+
+Der Flugmodus Altitude Hold wurde im Mission Planner aktiviert.
+
+Mehrere Testflüge wurden durchgeführt.
+
+Während der Tests wurde beobachtet, dass starke Vibrationen die Höhenregelung beeinflussen können.
+
+## Beobachtungen
+
+- Ruhiger Flug verbessert die Stabilität.
+- Reduzierte Vibrationen führen zu besseren Ergebnissen.
+- Die Drohne konnte ihre Höhe erfolgreich halten.
 
 ## Ergebnis
-Die Drohne konnte ihre Höhe stabil halten.
 
-## Bilder
-Werden später ergänzt.
+Altitude Hold funktioniert erfolgreich.

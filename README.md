@@ -29,7 +29,10 @@ Ziel dieses Projekts ist die Entwicklung einer KI-gestützten FPV-Drohne zur aut
 
 ## Team
 
-Wird später ergänzt.
+- Ranime Ben Afia
+- Adina Ritter
+- Algis Cinar
+- Anja Kraushaar
 
 ---
 

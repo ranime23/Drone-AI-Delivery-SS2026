@@ -30,6 +30,26 @@ Ergebnis:
 
 ---
 
+## Test 4 - Vibrationsdämpfung
+
+Ergebnis: Erfolgreich
+
+Bemerkungen:
+
+- Durch zusätzliche Dämpfungselemente konnten die Vibrationen reduziert werden.
+- Die Sensorwerte wurden dadurch stabiler.
+- Die Flugstabilität wurde verbessert.
+
+## Test 5 - Delivery Mechanismus
+
+Ergebnis: Teilweise erfolgreich
+
+Bemerkungen:
+
+- Der Mechanismus konnte erfolgreich montiert werden.
+- Die mechanische Funktion wurde getestet.
+- Die vollständige Integration mit Raspberry Pi steht noch aus.
+
 ## Offene Aufgaben
 
 - Raspberry Pi Konfiguration

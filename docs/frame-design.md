@@ -19,4 +19,13 @@ Integration zusätzlicher Komponenten.
 
 ## Status
 
-Konzeptphase.
+Mehrere 3D-gedruckte Komponenten wurden entwickelt und getestet.
+
+Dazu gehören:
+
+- Kamera-Gehäuse für die Raspberry Pi AI Camera
+- Raspberry-Pi-Halterung
+- Landefüße mit Vibrationsdämpfung
+- Anpassungen für den Delivery-Mechanismus
+
+Mehrere Versionen der Bauteile wurden iterativ verbessert.

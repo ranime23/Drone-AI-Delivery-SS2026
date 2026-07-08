@@ -33,6 +33,6 @@ Mehrere Flugmodi wurden erfolgreich konfiguriert und getestet.
 
 ## Nächste Schritte
 
-- Integration von LiDAR
-- Integration von Optical Flow
+- Verbesserung der Vibrationsdämpfung
+- Integration der Raspberry-Pi-Kommunikation
 - Vollständige autonome Navigation

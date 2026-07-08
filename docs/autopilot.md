@@ -6,7 +6,6 @@ Integration und Konfiguration eines Autopilot-Systems für die FPV-Drohne.
 
 ## Verwendete Hardware
 
-- FPV-Drohne
 - Flywoo GOKU GN745 Flight Controller
 - ELRS Empfänger
 - GPS Modul
@@ -23,9 +22,9 @@ Integration und Konfiguration eines Autopilot-Systems für die FPV-Drohne.
 
 Zunächst wurde ArduPilot auf dem Flight Controller installiert und konfiguriert.
 
-Anschließend wurden die Sensoren kalibriert und die Flugmodi eingerichtet.
+Anschließend wurden die Sensoren kalibriert und die ersten Flugmodi eingerichtet.
 
-Mehrere Testflüge wurden durchgeführt, um die Stabilität des Systems zu überprüfen und die Parameter schrittweise anzupassen.
+Mehrere Testflüge wurden durchgeführt, um die Stabilität der Drohne zu überprüfen und die Parameter schrittweise anzupassen.
 
 ## Ergebnis
 
@@ -33,7 +32,7 @@ Die Verbindung mit Mission Planner konnte erfolgreich hergestellt werden.
 
 Mehrere Flugmodi wurden erfolgreich konfiguriert und getestet.
 
-Eine stabile Flugplattform für weitere Entwicklungen konnte aufgebaut werden.
+Eine stabile Grundlage für weitere Entwicklungen wurde geschaffen.
 
 ## Wichtige Konfigurationsänderungen
 
@@ -44,7 +43,6 @@ Eine stabile Flugplattform für weitere Entwicklungen konnte aufgebaut werden.
 ### Motor-Konfiguration
 - Umstellung auf DShot600.
 - Anpassung der Motorreihenfolge für ArduPilot.
-- Anpassung der Motor-Spin-Parameter.
 
 ### Filter und PID-Tuning
 - Anpassung der Gyro- und Accelerometer-Filter.
@@ -55,7 +53,6 @@ Eine stabile Flugplattform für weitere Entwicklungen konnte aufgebaut werden.
 - LiDAR-Sensor installiert und kalibriert.
 - GPS-Modul ersetzt.
 - Test des internen Barometers für Altitude Hold.
-- Durchführung einer vollständigen Sensor-Kalibrierung.
 
 ## Nächste Schritte
 

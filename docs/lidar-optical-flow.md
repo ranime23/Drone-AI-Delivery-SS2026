@@ -1,189 +1,257 @@
-# LiDAR and Optical Flow Integration
+# LiDAR and Optical Flow
 
 ## Overview
 
-Reliable autonomous indoor flight requires accurate altitude and position estimation. Since GPS signals are often unavailable or unreliable indoors, additional sensors are necessary to stabilize the drone.
+LiDAR and Optical Flow are part of the sensor integration work for the drone.
 
-To achieve this, two complementary sensors were integrated into the system:
+The LiDAR was installed and calibrated during the project to provide distance measurements between the drone and the ground. This work was particularly important for the ongoing Altitude Hold tests.
 
-- A LiDAR sensor for altitude measurement
-- An Optical Flow sensor for horizontal position estimation
+Optical Flow is intended to support horizontal position estimation for Position Hold. The complete Position Hold configuration and testing are documented separately.
 
-Together, these sensors provide the information required for stable autonomous flight modes such as Altitude Hold and Position Hold.
-
----
-
-# Objectives
-
-The objectives of this work package were:
-
-- Improve indoor flight stability
-- Enable GPS-independent navigation
-- Integrate LiDAR for precise altitude measurement
-- Integrate Optical Flow for horizontal motion estimation
-- Support autonomous flight modes
+This document describes the sensor-related work that has been carried out so far.
 
 ---
 
-# Hardware
+## Objectives
 
-| Component | Description |
-|-----------|-------------|
-| LiDAR Sensor | MicroAir MTF-01P |
-| Optical Flow Sensor | Optical Flow Module |
-| Flight Controller | Flywoo GOKU GN745 |
-| Software | ArduPilot + Mission Planner |
+The work in this part of the project focused on:
 
----
-
-# LiDAR Sensor
-
-## Purpose
-
-The LiDAR sensor continuously measures the distance between the drone and the ground.
-
-Unlike the internal barometer, LiDAR provides highly accurate altitude measurements at low flight heights, making it especially suitable for indoor environments.
-
-The sensor became the primary altitude source during autonomous indoor flight.
+- integrating the LiDAR sensor,
+- configuring the Range Finder in ArduPilot,
+- calibrating the LiDAR,
+- testing distance measurements,
+- investigating vibration problems,
+- improving the mechanical mounting of the sensor,
+- preparing the sensor configuration required for further Altitude Hold and Position Hold testing.
 
 ---
 
-## Installation
+# 1. LiDAR Integration
 
-The LiDAR sensor was mounted underneath the drone frame.
+## 1.1 Installation
 
-Several mounting positions were evaluated before selecting the final configuration.
+The LiDAR sensor was mounted on the drone and connected to the flight controller.
 
-After installation, the sensor was fixed securely to minimize movement caused by vibrations.
+The sensor is positioned so that it measures the distance between the drone and the ground.
 
-The sensor was then calibrated using Mission Planner.
-
----
-
-## Advantages
-
-The LiDAR sensor provides:
-
-- High measurement accuracy
-- Fast distance updates
-- Reliable operation indoors
-- Stable altitude estimation
-- Improved hover performance
+After the mechanical installation, the corresponding Range Finder settings were configured in Mission Planner.
 
 ---
 
-# Optical Flow Sensor
+## 1.2 Calibration
 
-## Purpose
+The LiDAR was calibrated after installation.
 
-The Optical Flow sensor measures the horizontal movement of the drone by tracking visual features on the ground.
+Several calibration and testing steps were necessary because the sensor measurements are directly affected by:
 
-Instead of using GPS coordinates, it calculates the relative movement between consecutive images captured below the drone.
+- sensor orientation,
+- mounting position,
+- drone vibrations,
+- mechanical stability.
 
-This information allows the Flight Controller to maintain the current position while hovering.
-
----
-
-## Integration
-
-The Optical Flow sensor was connected to the Flight Controller and configured in ArduPilot.
-
-Its measurements were combined with the LiDAR altitude information to improve the accuracy of Position Hold.
-
-Both sensors work together continuously during flight.
+The calibration was therefore not treated as a single configuration step. Measurements and flight behaviour were checked again during the development process.
 
 ---
 
-# Sensor Fusion
+# 2. Range Finder Configuration
 
-Neither sensor alone is sufficient for reliable indoor navigation.
+The LiDAR was configured in ArduPilot through the Range Finder parameters.
 
-The Flight Controller combines information from both sensors.
+The current drone configuration contains the following important settings:
 
-| Sensor | Function |
-|---------|----------|
-| LiDAR | Altitude measurement |
-| Optical Flow | Horizontal movement estimation |
+| Parameter | Current Value | Purpose |
+|-----------|--------------:|---------|
+| `RNGFND1_MAX_CM` | 700 | Maximum configured measurement distance |
+| `RNGFND1_MIN_CM` | 20 | Minimum configured measurement distance |
+| `RNGFND1_GNDCLEAR` | 10 | Ground clearance |
+| `RNGFND1_ORIENT` | 25 | Orientation of the sensor |
+| `RNGFND1_POS_X` | 0.05 | X-position of the sensor |
+| `RNGFND1_POS_Z` | 0.01 | Z-position of the sensor |
+| `EK3_RNG_USE_HGT` | -1 | Current EKF Range Finder height setting |
 
-This sensor fusion allows the drone to maintain both altitude and position without GPS.
-
----
-
-# Flight Testing
-
-Several indoor test flights were performed after integrating both sensors.
-
-The following aspects were evaluated:
-
-- Sensor communication
-- Altitude estimation
-- Position stability
-- Hover performance
-- Sensor reliability
-
-The sensors were recalibrated whenever mechanical modifications affected their alignment.
+These values correspond to the configuration currently entered for the drone.
 
 ---
 
-# Challenges
+## 2.1 Measurement Limits
 
-During development several difficulties occurred.
+The minimum and maximum measurement distances were configured as follows:
 
-## Vibrations
+```text
+RNGFND1_MIN_CM = 20
+RNGFND1_MAX_CM = 700
+```
 
-Flight vibrations affected both LiDAR measurements and Optical Flow performance.
-
-To solve this problem:
-
-- vibration damping was improved,
-- landing gear was redesigned,
-- sensor mounting was reinforced.
+The configured measurement range is therefore **20 cm to 700 cm**.
 
 ---
 
-## Sensor Alignment
+## 2.2 Ground Clearance
 
-Correct alignment of the sensors was essential.
+The following ground-clearance value was configured:
 
-Even small mounting errors influenced altitude estimation and position stability.
+```text
+RNGFND1_GNDCLEAR = 10
+```
 
-Several adjustments were therefore necessary during testing.
-
----
-
-# Results
-
-The integration of both sensors was successful.
-
-The following improvements were achieved:
-
-- Reliable altitude measurement
-- Stable indoor hovering
-- GPS-independent Position Hold
-- Improved flight stability
-- Better autonomous flight performance
-
-The combination of LiDAR and Optical Flow significantly increased the overall performance of the drone during indoor flight.
+This parameter is part of the Range Finder configuration in Mission Planner.
 
 ---
 
-# Lessons Learned
+## 2.3 Sensor Orientation
 
-The development process showed that:
+The current orientation parameter is:
 
-- LiDAR is more reliable than the internal barometer for low-altitude indoor flight.
-- Optical Flow requires stable lighting conditions and a textured surface.
-- Flight stability strongly influences sensor performance.
-- Careful calibration is essential for reliable autonomous flight.
+```text
+RNGFND1_ORIENT = 25
+```
+
+This setting corresponds to the orientation entered for the LiDAR in the current drone configuration.
 
 ---
 
-# Future Work
+## 2.4 Sensor Position
 
-Future development will focus on:
+The position of the sensor relative to the flight controller was also configured:
 
-- Further optimization of sensor parameters
-- Raspberry Pi integration
-- AI Camera integration
-- Autonomous navigation
-- AI-supported object delivery
+```text
+RNGFND1_POS_X = 0.05
+RNGFND1_POS_Z = 0.01
+```
+
+These values represent the configured sensor offset.
+
+---
+
+# 3. Vibration Problems
+
+Vibrations became an important issue during the sensor integration.
+
+The project group observed that the drone needed to fly as calmly as possible for the sensor measurements and the subsequent Altitude Hold and Position Hold tests.
+
+The mechanical installation of the LiDAR was also affected by vibrations.
+
+According to the project development log, excessive vibrations could cause problems with the LiDAR attachment.
+
+For this reason, vibration reduction became part of both the sensor integration and the mechanical frame development.
+
+---
+
+# 4. Mechanical Improvements
+
+Several mechanical modifications were carried out to reduce vibrations.
+
+## Landing Feet – Version 1
+
+The first version of the 3D-printed landing feet was equipped with damping material.
+
+Foam/pool-noodle material was used to absorb vibrations and landing impacts.
+
+---
+
+## Landing Feet – Version 2
+
+A second version with longer landing feet was later required because additional space underneath the drone was needed for the servo.
+
+Vibration damping was again added to this version.
+
+The damping was also important for the LiDAR because the sensor mounting had to remain stable during flight.
+
+---
+
+# 5. Relation to Flight Controller Tuning
+
+Sensor testing could not be considered independently from the flight-controller configuration.
+
+The project group simultaneously worked on:
+
+- PID adjustment,
+- Gyroscope filtering,
+- Accelerometer filtering,
+- Dynamic Harmonic Notch filtering,
+- vibration damping.
+
+The objective was to obtain a sufficiently calm flight behaviour for reliable sensor testing.
+
+The detailed flight-controller settings are documented in:
+
+```text
+autopilot.md
+```
+
+---
+
+# 6. LiDAR and Altitude Hold
+
+Before using the LiDAR, the internal barometer of the flight controller was tested for Altitude Hold.
+
+The results were not satisfactory for the intended application.
+
+The LiDAR was therefore installed and calibrated as an additional distance sensor.
+
+The work performed for Altitude Hold includes:
+
+- barometer testing,
+- LiDAR installation,
+- LiDAR calibration,
+- Range Finder configuration,
+- vibration investigation,
+- flight testing.
+
+The complete development status is documented in:
+
+```text
+altitude-hold.md
+```
+
+---
+
+# 7. Optical Flow
+
+Optical Flow belongs to the Position Hold part of the project.
+
+Its purpose within the project is to provide information about horizontal movement when testing position stabilization.
+
+At the current documentation stage, the available project information does not contain the same level of detailed parameter documentation for Optical Flow as it does for the LiDAR.
+
+For this reason, no additional Optical Flow parameters are listed here without evidence from the actual drone configuration or project documentation.
+
+The corresponding Position Hold work is documented separately in:
+
+```text
+position-hold.md
+```
+
+---
+
+# 8. Work Performed So Far
+
+The following sensor-related work has been documented so far:
+
+- LiDAR physically installed.
+- LiDAR connected to the flight controller.
+- LiDAR calibrated.
+- Range Finder configuration entered in Mission Planner.
+- Minimum measurement distance configured.
+- Maximum measurement distance configured.
+- Sensor orientation configured.
+- Sensor position configured.
+- Internal barometer tested for Altitude Hold.
+- Vibration problems investigated.
+- Landing gear modified to improve vibration damping.
+- Flight stability improved in parallel with sensor testing.
+- Preparation and testing related to Altitude Hold and Position Hold continued.
+
+---
+
+# 9. Current Status
+
+The LiDAR installation and its basic Range Finder configuration have been carried out.
+
+The sensor has also been calibrated and used during the current Altitude Hold development.
+
+Vibration reduction and flight-controller tuning are still relevant because sensor performance depends on stable flight behaviour.
+
+Optical Flow belongs to the ongoing Position Hold development. The currently available documentation does not justify marking the complete Optical Flow/Position Hold integration as finished.
+
+Therefore, this sensor integration work remains part of the ongoing development and testing process.

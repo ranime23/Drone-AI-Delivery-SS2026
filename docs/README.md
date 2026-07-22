@@ -1,46 +1,49 @@
-# AI-Based FPV Drone Delivery System
+# AI FPV Drone Delivery System
 
 ## Project Overview
 
-This project was developed as part of the Adaptive Knowledge Systems course.
+This repository contains the documentation of our university project **AI FPV Drone Delivery System**.
 
-The objective is to extend an FPV drone with autonomous flight capabilities and an AI-supported delivery mechanism. The system combines ArduPilot, LiDAR, Optical Flow, a Raspberry Pi Zero 2 WH and a Raspberry Pi AI Camera to enable autonomous indoor navigation and object delivery.
+The objective of the project was to transform a commercial FPV drone into an experimental platform capable of autonomous flight and prepared for future AI-assisted package delivery.
 
-The project focuses on the integration of flight control, sensor fusion, embedded software and custom 3D-printed components.
+During the project, we focused on integrating ArduPilot, configuring the flight controller, improving the flight stability, integrating additional sensors such as LiDAR and Optical Flow, developing custom 3D-printed components, and preparing a Raspberry Pi for future onboard processing.
+
+The repository documents every important development step, including the hardware modifications, software configuration, parameter tuning, flight tests and the problems encountered during the implementation.
 
 ---
 
-## Project Objectives
+# Project Objectives
 
-The main objectives of the project are:
+The main objectives of our project were:
 
-- Configure an FPV drone using ArduPilot
-- Achieve stable autonomous flight
-- Implement Altitude Hold using LiDAR
-- Implement Position Hold without GPS
-- Integrate a Raspberry Pi Zero 2 WH
-- Connect a Raspberry Pi AI Camera
-- Develop an AI-supported delivery system
-- Design and manufacture custom 3D-printed components
-- Document the complete development process
+- Replace the original Betaflight firmware with ArduPilot.
+- Configure the Flywoo GOKU GN745 flight controller.
+- Improve flight stability by tuning ArduPilot parameters.
+- Integrate a LiDAR sensor for altitude measurements.
+- Integrate an Optical Flow sensor for indoor positioning.
+- Design and manufacture custom 3D printed drone components.
+- Prepare a Raspberry Pi Zero 2 W for future onboard processing.
+- Develop a mechanical payload delivery mechanism.
+- Test all implemented components individually.
 
 ---
 
 # Hardware
 
-The drone consists of the following hardware components.
+The drone consists of the following main components.
 
-| Component | Purpose |
-|-----------|----------|
-| Flywoo GOKU GN745 Flight Controller | Flight control |
-| ELRS Receiver | Remote control communication |
-| GPS Module | Outdoor positioning |
-| LiDAR (MTF-01P) | Altitude measurement |
-| Optical Flow Sensor | Indoor position estimation |
-| Raspberry Pi Zero 2 WH | Embedded computer |
-| Raspberry Pi AI Camera | Object detection |
-| Micro Servo | Delivery mechanism |
-| FPV Camera & Video Transmitter | Live video transmission |
+| Component | Description |
+|------------|-------------|
+| Frame | Flywoo FlyLens 85 HD |
+| Flight Controller | Flywoo GOKU GN745 |
+| Firmware | ArduPilot Copter 4.6.x |
+| ESC | Integrated AM32 ESC |
+| GPS | GPS module |
+| LiDAR | Distance sensor for altitude measurement |
+| Optical Flow | Position estimation sensor |
+| Raspberry Pi | Raspberry Pi Zero 2 W |
+| Camera | Raspberry Pi AI Camera |
+| Delivery Mechanism | Custom designed servo release system |
 
 ---
 
@@ -55,120 +58,181 @@ The following software was used during the project.
 - MAVSDK
 - DroneKit
 - OpenCV
-- GitHub
+- Python
+- Fusion 360
+- Orca Slicer
 
 ---
 
-# Project Structure
+# Project Documentation
 
 The documentation is divided into several sections.
 
 | Documentation | Description |
 |---------------|-------------|
 | Autopilot | Flight controller installation and configuration |
-| Altitude Hold | Stable altitude control |
-| Position Hold | Indoor position stabilization |
-| LiDAR & Optical Flow | Sensor integration |
-| Raspberry Pi | Embedded software and networking |
-| Frame Design | Mechanical development |
-| Delivery System | Payload release mechanism |
-| Test Results | Flight tests and evaluation |
+| Altitude Hold | LiDAR integration and altitude stabilization |
+| Position Hold | Optical Flow integration and position estimation |
+| LiDAR & Optical Flow | Sensor configuration and testing |
+| Frame Design | Design and manufacturing of custom drone parts |
+| Delivery System | Development of the payload release mechanism |
+| Raspberry Pi | Raspberry Pi configuration and software installation |
+| Test Results | Summary of all performed flight tests |
 
 ---
 
 # Development Process
 
-The project was developed iteratively.
+The project was completed in several stages.
 
-Major development milestones included:
+## 1. Flight Controller Configuration
 
-- Pilot selection and simulator training
-- Replacement of damaged hardware
-- Installation of ArduPilot
-- Sensor calibration
-- Flight controller tuning
-- LiDAR integration
-- Flight stability optimization
-- Altitude Hold implementation
-- Position Hold implementation
-- Design of 3D-printed components
-- Raspberry Pi integration
-- Development of the delivery mechanism
+The first step was replacing the original firmware with ArduPilot and configuring the flight controller for the Flywoo platform.
+
+This included:
+
+- motor configuration
+- ESC configuration
+- board orientation correction
+- accelerometer calibration
+- parameter tuning
+
+---
+
+## 2. Flight Stabilization
+
+After the first successful flights, several ArduPilot parameters were modified to improve flight stability.
+
+The configuration included:
+
+- PID tuning
+- Gyroscope filtering
+- Accelerometer filtering
+- Dynamic Harmonic Notch Filter
+- Motor configuration
+
+The final parameter configuration is documented in the **Autopilot** section.
+
+---
+
+## 3. Sensor Integration
+
+After achieving a stable flight behaviour, additional sensors were integrated.
+
+These included:
+
+- LiDAR
+- Optical Flow
+- GPS
+
+Each sensor was configured individually and tested using Mission Planner.
+
+---
+
+## 4. Mechanical Design
+
+Several drone components were designed specifically for this project.
+
+These include:
+
+- Raspberry Pi holder
+- Camera holder
+- Landing gear
+- Protective frame
+- Delivery mechanism
+
+All parts were designed in CAD software and manufactured using 3D printing.
+
+---
+
+## 5. Raspberry Pi
+
+The Raspberry Pi Zero 2 W was prepared as the onboard computer.
+
+The performed work includes:
+
+- Raspberry Pi OS installation
+- OpenCV installation
+- MAVSDK installation
+- DroneKit installation
+- Wireless Access Point configuration
+- SSH configuration
+- Network testing
+
+---
+
+## 6. Flight Testing
+
+Multiple flight tests were carried out after each major hardware or software modification.
+
+The tests focused on:
+
+- Stable hover
+- Altitude Hold
+- Position Hold
+- LiDAR performance
+- Optical Flow performance
+- Overall flight stability
+
+The results of these tests are documented in the corresponding chapters.
 
 ---
 
 # Current Project Status
 
-## Completed
+At the current stage of the project, the following tasks have been completed.
 
-- ArduPilot installation
-- Flight controller configuration
-- Sensor calibration
-- LiDAR integration
-- Flight testing
-- Altitude Hold
-- Position Hold
-- Mechanical frame extensions
-- 3D-printed mounting components
+✔ ArduPilot installed
 
-## In Progress
+✔ Flight controller configured
 
-- Raspberry Pi communication
-- AI Camera integration
-- Autonomous payload delivery
-- AI-based object recognition
+✔ Board orientation corrected
+
+✔ ESC configured
+
+✔ Motor parameters tuned
+
+✔ Flight stabilization improved
+
+✔ LiDAR integrated
+
+✔ Optical Flow integrated
+
+✔ Raspberry Pi configured
+
+✔ Custom 3D printed parts manufactured
+
+✔ Mechanical delivery mechanism developed
+
+✔ Multiple flight tests completed
+
+Some software components, especially the interaction between the Raspberry Pi and the flight controller, are still under further development.
 
 ---
 
 # Repository Structure
 
 ```
+README.md
+
 docs/
 │
-├── README.md
 ├── autopilot.md
 ├── altitude-hold.md
 ├── position-hold.md
 ├── lidar-optical-flow.md
-├── raspberry-pi.md
 ├── frame-design.md
 ├── delivery-system.md
+├── raspberry-pi.md
 └── test-results.md
 ```
 
 ---
 
-# Technologies
+# Conclusion
 
-- ArduPilot
-- Mission Planner
-- MAVSDK
-- MAVProxy
-- DroneKit
-- OpenCV
-- Raspberry Pi OS
-- Python
-- GitHub
+This repository documents the complete development process of our AI FPV Drone Delivery System.
 
----
+Instead of presenting only the final result, the documentation describes the hardware modifications, software configuration, parameter tuning, sensor integration, mechanical development and flight testing that were carried out during the project.
 
-# Future Work
-
-Future development focuses on:
-
-- Complete Raspberry Pi integration
-- AI-based object detection
-- Autonomous indoor navigation
-- Autonomous package delivery
-- Further optimization of flight stability
-- Extended flight testing
-
----
-
-# Authors
-
-Project Group 3
-
-Frankfurt University of Applied Sciences
-
-Adaptive Knowledge Systems
+Each chapter focuses on one part of the development process and documents the work performed by our project group.

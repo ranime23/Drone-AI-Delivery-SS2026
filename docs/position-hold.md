@@ -2,152 +2,276 @@
 
 ## Overview
 
-Position Hold is one of the most important autonomous flight modes of the project. Unlike Altitude Hold, which only controls the flight altitude, Position Hold enables the drone to maintain both its altitude and its horizontal position.
+After working on the basic ArduPilot configuration and Altitude Hold, the project continued with the preparation and testing of **Position Hold (PosHold)**.
 
-Since the project was designed for indoor autonomous navigation, GPS could not be used reliably. Therefore, Position Hold was implemented using the combination of a LiDAR sensor for altitude estimation and an Optical Flow sensor for horizontal position estimation.
+The objective of this development step is to improve the ability of the drone to maintain its horizontal position during flight.
 
-The successful implementation of Position Hold was an important milestone towards autonomous package delivery.
+For this purpose, the flight stability, altitude measurement and sensor configuration first had to be improved.
 
----
-
-# Objectives
-
-The objectives of this work package were:
-
-- Maintain a stable position during hover
-- Reduce pilot corrections
-- Enable GPS-independent indoor flight
-- Integrate Optical Flow with LiDAR
-- Prepare autonomous navigation
+Position Hold is currently part of the ongoing development and testing process and is therefore not considered fully completed.
 
 ---
 
-# Required Components
+## Objectives
 
-| Component | Purpose |
-|-----------|----------|
-| Flywoo GOKU GN745 | Flight Controller |
-| LiDAR MTF-01P | Altitude measurement |
-| Optical Flow Sensor | Position estimation |
-| ArduPilot | Flight control software |
-| Mission Planner | Configuration and testing |
+The work related to Position Hold currently focuses on:
 
----
-
-# Prerequisites
-
-Before Position Hold could be activated, several requirements had to be fulfilled.
-
-The following milestones had already been completed:
-
-- Successful ArduPilot installation
-- Stable Flight Controller configuration
-- Sensor calibration
-- Successful Altitude Hold
-- LiDAR integration
-- Reduction of flight vibrations
-
-Only after these steps could reliable Position Hold testing begin.
+- preparing the drone for stable Position Hold operation,
+- improving the general flight stability,
+- using the LiDAR configuration developed during the Altitude Hold work,
+- working with Optical Flow for horizontal movement estimation,
+- reducing vibrations,
+- calibrating the required sensors,
+- performing flight tests,
+- observing the behaviour of the drone,
+- progressively improving the configuration.
 
 ---
 
-# Sensor Fusion
+# 1. Prerequisites
 
-Position Hold combines information from multiple sensors.
+Before starting the Position Hold work, several other parts of the drone had to be configured.
 
-## LiDAR
+The project group therefore first worked on:
 
-The LiDAR continuously measures the distance between the drone and the ground.
+- ArduPilot installation,
+- flight controller configuration,
+- motor configuration,
+- board orientation,
+- accelerometer calibration,
+- compass calibration,
+- PID adjustment,
+- filter configuration,
+- vibration reduction,
+- LiDAR installation,
+- LiDAR calibration,
+- Altitude Hold testing.
 
-Its measurements are used to maintain a constant flight altitude.
-
----
-
-## Optical Flow
-
-The Optical Flow sensor observes the ground below the drone.
-
-By tracking visual features between consecutive images, it estimates horizontal movement without requiring GPS.
-
-This information allows the Flight Controller to compensate for small movements caused by air turbulence or pilot input.
-
----
-
-# Flight Testing
-
-Several indoor flight tests were carried out.
-
-Each flight evaluated:
-
-- Hover stability
-- Position accuracy
-- Sensor behaviour
-- Influence of vibrations
-- Optical Flow performance
-
-Whenever unstable behaviour was observed, the parameters were adjusted before the next flight.
+The main objective was to make the drone fly as calmly as possible before evaluating Position Hold.
 
 ---
 
-# Challenges
+# 2. Flight Stability
 
-During development several problems had to be solved.
+Flight stability was one of the most important requirements for the Position Hold tests.
 
-## Flight Vibrations
+During the previous flight tests, oscillations and vibrations had to be reduced.
 
-Strong vibrations reduced the quality of both LiDAR and Optical Flow measurements.
+Several ArduPilot parameters were therefore adjusted.
 
-Additional vibration damping was therefore implemented before continuing Position Hold testing.
+The current configuration includes, among others:
 
----
+| Parameter | Current Value |
+|-----------|--------------:|
+| `INS_GYRO_FILTER` | 80 |
+| `INS_ACCEL_FILTER` | 20 |
+| `INS_HNTCH_ENABLE` | 1 |
+| `INS_HNTCH_MODE` | 3 |
+| `INS_HNTCH_FREQ` | 80 |
+| `INS_HNTCH_BW` | 40 |
+| `INS_HNTCH_ATT` | 40 |
 
-## Sensor Calibration
+The initial Roll and Pitch PID values were also reduced.
 
-Both sensors required repeated calibration after hardware modifications.
+### Pitch
 
-Accurate calibration was essential for reliable position estimation.
+```text
+ATC_RAT_PIT_P = 0.06
+ATC_RAT_PIT_I = 0.06
+ATC_RAT_PIT_D = 0.002
+```
 
----
+### Roll
 
-## Stable Hover
+```text
+ATC_RAT_RLL_P = 0.06
+ATC_RAT_RLL_I = 0.06
+ATC_RAT_RLL_D = 0.002
+```
 
-Position Hold only worked reliably after achieving a stable hover using Altitude Hold.
+These settings are documented in more detail in:
 
-For this reason, flight controller tuning and vibration reduction were completed first.
-
----
-
-# Results
-
-The following milestones were successfully achieved:
-
-- Successful integration of Optical Flow
-- Successful integration of LiDAR
-- Stable indoor hovering
-- Reliable Position Hold
-- GPS-independent position stabilization
-
-The drone was able to maintain its position significantly better than during manual flight.
-
----
-
-# Lessons Learned
-
-Several important observations were made during testing.
-
-- Position Hold depends heavily on a stable Altitude Hold.
-- Optical Flow performs best at low indoor flight altitudes.
-- Reducing vibrations greatly improves position estimation.
-- Proper sensor calibration is essential for stable autonomous flight.
+```text
+autopilot.md
+```
 
 ---
 
-# Future Improvements
+# 3. Altitude Information
 
-Future work focuses on:
+Position Hold testing is connected to the previous Altitude Hold work.
 
-- Further optimization of Optical Flow parameters
-- Raspberry Pi integration
-- AI Camera integration
-- Autonomous waypoint navigation
-- AI-based object delivery
+Initially, the internal barometer of the flight controller was tested for altitude estimation.
+
+The results were not satisfactory for the intended AltHold operation.
+
+A LiDAR sensor was therefore mounted and calibrated.
+
+The current Range Finder configuration includes:
+
+| Parameter | Current Value |
+|-----------|--------------:|
+| `RNGFND1_MAX_CM` | 700 |
+| `RNGFND1_MIN_CM` | 20 |
+| `RNGFND1_GNDCLEAR` | 10 |
+| `RNGFND1_ORIENT` | 25 |
+| `RNGFND1_POS_X` | 0.05 |
+| `RNGFND1_POS_Z` | 0.01 |
+| `EK3_RNG_USE_HGT` | -1 |
+
+The detailed LiDAR configuration is documented in:
+
+```text
+altitude-hold.md
+```
+
+and
+
+```text
+lidar-optical-flow.md
+```
+
+---
+
+# 4. Optical Flow
+
+Optical Flow is part of the Position Hold development.
+
+The sensor is intended to provide information about the horizontal movement of the drone during Position Hold testing.
+
+In contrast to the LiDAR configuration, the currently available project documentation does not contain a complete list of confirmed Optical Flow parameter changes.
+
+For this reason, no additional Optical Flow parameter values are documented here unless they can be confirmed from the exported drone configuration or from further project documentation.
+
+This avoids documenting configuration changes that were not actually performed by the project group.
+
+---
+
+# 5. Vibration Reduction
+
+Vibration reduction remained important during the Position Hold development.
+
+The project group therefore worked on both software and mechanical improvements.
+
+## Software Measures
+
+The software-related measures included:
+
+- Gyroscope filter adjustment,
+- Accelerometer filter adjustment,
+- Dynamic Harmonic Notch Filter activation,
+- PID adjustment.
+
+## Mechanical Measures
+
+Mechanical vibration damping was also introduced.
+
+The 3D-printed landing feet were equipped with damping material.
+
+A second version of the landing feet was later produced because more space was required underneath the drone for the servo.
+
+This version again included damping material.
+
+The mechanical changes were important because excessive vibration also affected the mounting of the LiDAR sensor.
+
+---
+
+# 6. Calibration
+
+A considerable amount of calibration work was required during the project.
+
+The project documentation specifically records repeated calibration work for the flight controller and sensors.
+
+This included:
+
+- accelerometer calibration,
+- compass calibration,
+- LiDAR calibration,
+- verification after hardware changes.
+
+Hardware replacement and mechanical modifications required parts of the configuration to be checked again.
+
+---
+
+# 7. Flight Tests
+
+Flight tests were performed during the development process to evaluate the behaviour of the drone.
+
+For the Position Hold preparation, particular attention was paid to:
+
+- general flight stability,
+- hover behaviour,
+- vibrations,
+- altitude behaviour,
+- sensor behaviour.
+
+The configuration is still being evaluated and adjusted based on the results of these tests.
+
+---
+
+# 8. Relation Between AltHold and PosHold
+
+The project development log specifically identifies stable flight as an important requirement for both Altitude Hold and Position Hold.
+
+The development sequence was therefore:
+
+```text
+Flight Controller Configuration
+            ↓
+Flight Stability
+            ↓
+Vibration Reduction
+            ↓
+LiDAR Installation and Calibration
+            ↓
+Altitude Hold Testing
+            ↓
+Position Hold Preparation and Testing
+```
+
+This means that Position Hold could not be treated as an isolated feature.
+
+Problems with flight stability, vibrations or altitude measurement also influenced the Position Hold development.
+
+---
+
+# 9. Work Performed So Far
+
+The following work relevant to Position Hold has been performed so far:
+
+- ArduPilot installed and configured.
+- Flight controller replaced and recalibrated.
+- Board orientation corrected.
+- Motor configuration adapted.
+- PID values adjusted.
+- Gyroscope and accelerometer filters adjusted.
+- Dynamic Harmonic Notch Filter activated.
+- Flight stability tested and improved.
+- Internal barometer tested for Altitude Hold.
+- LiDAR installed.
+- LiDAR calibrated.
+- Range Finder parameters configured.
+- Vibration problems investigated.
+- Mechanical vibration damping introduced.
+- Flight tests performed.
+- Preparation and testing for Position Hold started.
+
+---
+
+# 10. Current Status
+
+Position Hold is currently still part of the ongoing development process.
+
+The project group has already completed several necessary preparation steps, especially:
+
+- flight-controller configuration,
+- flight-stability improvements,
+- LiDAR integration,
+- sensor calibration,
+- vibration reduction.
+
+The drone is currently being tested and further adjusted to improve the conditions required for reliable Position Hold.
+
+Therefore, Position Hold is **not documented as a fully completed function at the current project stage**.
+
+Further results and parameter changes will be added to this documentation as the testing continues.

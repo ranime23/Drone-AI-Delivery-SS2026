@@ -2,172 +2,223 @@
 
 ## Overview
 
-Altitude Hold was one of the first autonomous flight modes implemented during the project.
+One of the next steps after the initial ArduPilot configuration was the implementation and testing of **Altitude Hold (AltHold)**.
 
-The objective was to enable the drone to maintain a constant altitude without continuous pilot throttle corrections. Achieving a stable altitude was considered an important milestone before implementing Position Hold and autonomous navigation.
+The objective was to enable the drone to maintain its flight altitude with reduced manual throttle correction.
 
-Since the project mainly focuses on indoor flight, reliable altitude estimation was required without depending on GPS.
+During the development process, different altitude measurement approaches were tested. The internal barometer of the flight controller was tested first. Since this did not provide satisfactory results for the intended use, a LiDAR sensor was installed and calibrated.
 
----
-
-# Objective
-
-The objectives of this work package were:
-
-- Maintain a constant flight altitude
-- Improve hover stability
-- Reduce manual pilot corrections
-- Integrate a LiDAR sensor for altitude measurement
-- Prepare the system for Position Hold
+Altitude Hold is currently part of the ongoing flight testing and optimisation process.
 
 ---
 
-# Hardware
+## Objective
 
-| Component | Purpose |
-|-----------|----------|
-| Flywoo GOKU GN745 | Flight Controller |
-| MicroAir MTF-01P | LiDAR distance sensor |
-| ELRS Receiver | Manual control during testing |
+The work carried out in this part of the project focused on:
 
----
-
-# Initial Approach
-
-The first implementation relied on the internal barometer of the Flight Controller.
-
-Several flight tests were carried out to evaluate whether the internal pressure sensor could provide sufficient altitude estimation for indoor flights.
-
-However, the obtained results were not satisfactory.
-
-The altitude estimation fluctuated significantly, leading to unstable hovering.
+- testing Altitude Hold with ArduPilot,
+- evaluating the internal barometer,
+- installing the LiDAR sensor,
+- configuring the LiDAR in Mission Planner,
+- calibrating the sensor,
+- reducing vibration effects,
+- performing flight tests,
+- improving the stability of the drone before further Position Hold tests.
 
 ---
 
-# LiDAR Integration
+## Initial Test with the Internal Barometer
 
-To improve altitude estimation, a MicroAir MTF-01P LiDAR sensor was installed.
+The internal barometer of the flight controller was initially tested as an altitude source for Altitude Hold.
 
-The sensor was mounted underneath the drone and carefully aligned to measure the distance between the aircraft and the ground.
+During the tests, the barometer did not provide satisfactory results for the intended AltHold operation.
 
-After installation, the sensor was calibrated using Mission Planner.
-
-The LiDAR became the primary altitude source for low-altitude indoor flights.
+For this reason, the project continued with an external LiDAR sensor to obtain a direct distance measurement between the drone and the ground.
 
 ---
 
-# LiDAR Configuration
+## LiDAR Installation
 
-The following parameters were configured inside Mission Planner.
+The LiDAR sensor was mounted underneath the drone.
 
-| Parameter | Value |
-|-----------|-------|
-| RNGFND1_MAX_CM | 700 |
-| RNGFND1_MIN_CM | 20 |
-| RNGFND1_GNDCLEAR | 10 |
-| RNGFND1_ORIENT | Downward |
-| RNGFND1_POS_X | 0.05 |
-| RNGFND1_POS_Z | 0.01 |
+After mounting, the sensor was connected to the flight controller and configured in Mission Planner.
 
-These parameters define the measurement range, mounting position and orientation of the sensor.
+The sensor was then calibrated and tested.
+
+The mechanical mounting of the LiDAR also became an important issue during the project because vibrations affected the installation. Additional damping and modifications to the landing gear were therefore introduced.
 
 ---
 
-# Flight Testing
+## LiDAR Configuration in Mission Planner
 
-Several indoor flight tests were performed.
+The Range Finder parameters were configured in Mission Planner.
 
-During every test the following aspects were evaluated:
+The current configuration contains the following values:
 
-- Hover stability
-- Altitude accuracy
-- Sensor response
-- Influence of vibrations
-- Repeatability of the altitude controller
+| Parameter | Value | Function |
+|-----------|------:|----------|
+| `RNGFND1_MAX_CM` | 700 | Maximum measurement distance |
+| `RNGFND1_MIN_CM` | 20 | Minimum measurement distance |
+| `RNGFND1_GNDCLEAR` | 10 | Ground clearance |
+| `RNGFND1_ORIENT` | 25 | Sensor orientation |
+| `RNGFND1_POS_X` | 0.05 | Sensor position on X-axis |
+| `RNGFND1_POS_Z` | 0.01 | Sensor position on Z-axis |
+| `EK3_RNG_USE_HGT` | -1 | EKF rangefinder height configuration |
 
-Whenever unstable behaviour was observed, the drone landed and new adjustments were made before repeating the test.
-
----
-
-# Vibration Analysis
-
-One of the biggest challenges during Altitude Hold was vibration.
-
-Strong vibrations affected both the Flight Controller sensors and the LiDAR measurements.
-
-Several mechanical improvements were introduced:
-
-- Additional vibration damping
-- Improved landing feet
-- Foam damping material
-- Better cable routing
-- Secure mounting of the LiDAR sensor
-
-These modifications significantly improved measurement stability.
+These values are part of the current drone configuration exported from Mission Planner.
 
 ---
 
-# Challenges
+## Measurement Range
 
-Several difficulties occurred during development.
+The configured measurement range is:
 
-## Internal Barometer
+- Minimum distance: **20 cm**
+- Maximum distance: **700 cm**
 
-The internal Flight Controller barometer did not provide reliable altitude estimation during indoor flights.
+This range defines the distance interval in which the LiDAR is configured to provide altitude measurements.
 
-Therefore, another sensor solution became necessary.
+The ground clearance was configured as:
+
+```text
+RNGFND1_GNDCLEAR = 10
+```
 
 ---
 
-## Sensor Calibration
+## Sensor Position
 
-The LiDAR sensor required several calibration procedures before stable measurements were obtained.
+The physical position of the LiDAR relative to the flight controller was also entered into the ArduPilot configuration.
 
-The sensor position also had to be adjusted after mechanical modifications.
+```text
+RNGFND1_POS_X = 0.05
+RNGFND1_POS_Z = 0.01
+```
+
+These parameters describe the sensor offset relative to the reference position of the flight controller.
+
+---
+
+## Sensor Orientation
+
+The LiDAR is installed to measure the distance between the drone and the ground.
+
+The corresponding orientation parameter in the current configuration is:
+
+```text
+RNGFND1_ORIENT = 25
+```
+
+This configuration was entered in Mission Planner as part of the Range Finder setup.
+
+---
+
+## Calibration and Testing
+
+After installing the LiDAR, several calibration and test steps were necessary.
+
+The work carried out included:
+
+1. Mounting the LiDAR on the drone.
+2. Connecting the sensor to the flight controller.
+3. Configuring the Range Finder parameters in Mission Planner.
+4. Calibrating the sensor.
+5. Checking the distance measurements.
+6. Performing flight tests.
+7. Observing the behaviour of the drone in AltHold.
+8. Investigating vibration problems.
+9. Modifying the mechanical damping where necessary.
+
+The calibration process required several adjustments during the project.
+
+---
+
+## Vibration Problems
+
+Vibration was an important problem during the Altitude Hold development.
+
+The drone had to remain sufficiently stable for the altitude measurement and AltHold tests.
+
+The project group therefore worked on mechanical vibration reduction.
+
+One problem was that the LiDAR mounting could be affected by the vibrations of the drone.
+
+To improve this situation, damping material was introduced into the landing gear design.
+
+---
+
+## Landing Gear and Vibration Damping
+
+The first version of the 3D-printed landing feet was equipped with damping material made from foam/pool-noodle material.
+
+Later, longer landing feet were required because additional space was needed underneath the drone for the servo.
+
+The second version also included vibration damping.
+
+This was important not only for landing but also because excessive vibrations could affect the LiDAR mounting.
+
+Therefore, the mechanical frame development and the Altitude Hold tests were directly connected.
 
 ---
 
 ## Flight Stability
 
-Altitude Hold depends heavily on a stable aircraft.
+Before Altitude Hold and later Position Hold could be tested reliably, the drone needed to fly as calmly as possible.
 
-Large oscillations negatively influenced the altitude controller.
+For this reason, the work on Altitude Hold was performed together with the ongoing ArduPilot tuning.
 
-For this reason, flight controller tuning and vibration reduction were completed before extensive Altitude Hold testing.
+The following aspects were therefore relevant:
 
----
+- PID adjustments,
+- gyro filtering,
+- accelerometer filtering,
+- Dynamic Harmonic Notch filtering,
+- mechanical vibration damping,
+- LiDAR calibration.
 
-# Results
-
-The following milestones were achieved successfully:
-
-- Successful LiDAR installation
-- Successful sensor calibration
-- Stable altitude estimation
-- Reliable indoor hovering
-- Reduced vibration influence
-- Successful Altitude Hold implementation
-
-The drone was able to maintain its altitude significantly better than during the initial barometer-based tests.
+The corresponding flight-controller parameters are documented separately in `autopilot.md`.
 
 ---
 
-# Lessons Learned
+## Tests Performed So Far
 
-During development several important observations were made.
+The following work has been performed so far:
 
-- Indoor altitude estimation cannot rely solely on the internal barometer.
-- LiDAR provides significantly more accurate altitude information at low heights.
-- Flight stability and vibration reduction are essential before enabling autonomous flight modes.
-- Mechanical improvements directly influence sensor performance.
+- Internal barometer tested for AltHold.
+- Barometer results were not satisfactory for the intended operation.
+- LiDAR mounted on the drone.
+- LiDAR calibrated.
+- Range Finder parameters configured in Mission Planner.
+- LiDAR distance range configured.
+- Sensor position configured.
+- Sensor orientation configured.
+- Multiple calibration steps performed.
+- Flight behaviour observed during tests.
+- Vibration problems investigated.
+- Mechanical damping added to the landing gear.
 
 ---
 
-# Next Steps
+## Current Status
 
-After successfully implementing Altitude Hold, the next development phase focused on:
+The LiDAR has been installed and calibrated, and the required Range Finder configuration has been entered in Mission Planner.
 
-- Position Hold
-- Optical Flow integration
-- Indoor navigation
-- Autonomous object delivery
+The internal barometer was tested but did not provide satisfactory results for the intended AltHold operation.
+
+Flight stability, vibration reduction and Altitude Hold behaviour continue to be evaluated during the current project development.
+
+The work on Altitude Hold is therefore **not considered completely finished yet**. It remains connected to the ongoing flight tuning and sensor testing.
+
+---
+
+## Relation to Position Hold
+
+Altitude stabilization is also important for the next development step, Position Hold.
+
+The project group therefore first focused on obtaining a calm and stable flight behaviour before continuing with Position Hold testing.
+
+The Position Hold development is documented separately in:
+
+```text
+position-hold.md
+```

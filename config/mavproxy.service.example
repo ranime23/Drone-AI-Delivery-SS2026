@@ -1,0 +1,13 @@
+[Unit]
+Description=MAVProxy Telemetry Bridge
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mavproxy.py --master=/dev/serial0 --baudrate=115200 --out=udp:192.168.178.50:14550
+Restart=always
+RestartSec=2
+User=pi
+
+[Install]
+WantedBy=multi-user.target

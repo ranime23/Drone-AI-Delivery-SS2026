@@ -1,5 +1,10 @@
 # KI-Drohnen – Autonomous Target Search & Payload Delivery
+## 👥 Group Members
 
+- **Ranime Ben Afia**
+- **Adina Ritter**
+- **Algis**
+- **Anja**
 ## Zweck
 
 Dieses Repository ist die vollständige, reproduzierbare Online-Dokumentation des KI-Drohnenprojekts.

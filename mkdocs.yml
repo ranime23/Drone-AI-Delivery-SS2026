@@ -1,0 +1,22 @@
+site_name: KI-Drohnen – Autonomous Target Search & Payload Delivery
+site_description: Reproducible documentation for the KI-Drohnen project
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - System Overview: docs/01-system-overview.md
+  - Hardware: docs/02-hardware.md
+  - ArduPilot Installation: docs/03-ardupilot-installation.md
+  - Autopilot Configuration: docs/04-autopilot-configuration.md
+  - Altitude Hold: docs/05-altitude-hold.md
+  - Position Hold: docs/06-position-hold.md
+  - LiDAR & Optical Flow: docs/07-lidar-optical-flow.md
+  - Raspberry Pi: docs/08-raspberry-pi-setup.md
+  - MAVLink / MAVProxy: docs/09-mavlink-mavproxy.md
+  - AI Object Detection: docs/10-ai-object-detection.md
+  - ArUco: docs/11-aruco-verification.md
+  - Servo Drop: docs/12-servo-payload-drop.md
+  - Autonomous Mission: docs/13-autonomous-mission.md
+  - Test Results: docs/14-testing-results.md
+  - Troubleshooting: docs/15-troubleshooting.md
+  - Full Parameters: docs/16-full-parameter-reference.md

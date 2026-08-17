@@ -4,7 +4,7 @@
 - **Ranime Ben Afia**
 - **Adina Ritter**
 - **Algis**
-- **Anja**
+- **Anja Kraushaar**
 ## Zweck
 
 Dieses Repository ist die vollständige, reproduzierbare Online-Dokumentation des KI-Drohnenprojekts.

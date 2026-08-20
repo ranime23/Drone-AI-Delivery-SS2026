@@ -15,8 +15,7 @@ Das Projekt kombiniert:
 - Flywoo GOKU GN745 Flight Controller
 - ArduPilot / Mission Planner
 - GPS und externen Compass
-- MicroAir MTF-01P LiDAR
-- Optical Flow
+- MicroAir MTF-01P LiDAR mit Optical Flow
 - Raspberry Pi Zero 2 W
 - Raspberry-Pi-Kamera
 - MobileNet-SSD zur KI-Objekterkennung

@@ -141,8 +141,7 @@ Die direkte autonome Flugsteuerung des Raspberry Pi über MAVLink ist separat do
 │   ├── 14-testing-results.md
 │   ├── 15-troubleshooting.md
 │   └── 16-full-parameter-reference.md
-└── assets/
-    └── README.md
+└── images/
 ```
 
 ## Final Parameter Export

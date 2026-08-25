@@ -3,7 +3,7 @@
 
 - **Ranime Ben Afia**
 - **Adina Ritter**
-- **Algis**
+- **Algis Cinar**
 - **Anja Kraushaar**
 ## Zweck
 
